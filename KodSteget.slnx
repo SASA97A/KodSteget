@@ -2,10 +2,12 @@
   <Folder Name="/Solution Items/">
     <File Path="readme.md" />
   </Folder>
-  <Project Path="API.Tests/API.Tests.csproj" />
+  <Folder Name="/Tests/">
+    <Project Path="API.Tests/API.Tests.csproj" />
+    <Project Path="BLL.Tests/BLL.Tests.csproj" />
+    <Project Path="DAL.Tests/DAL.Tests.csproj" />
+  </Folder>
   <Project Path="API/API.csproj" />
-  <Project Path="BLL.Tests/BLL.Tests.csproj" />
   <Project Path="BLL/BLL.csproj" />
-  <Project Path="DAL.Tests/DAL.Tests.csproj" />
   <Project Path="DAL/DAL.csproj" />
 </Solution>
