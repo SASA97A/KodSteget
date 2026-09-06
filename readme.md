@@ -27,10 +27,13 @@
 * `Microsoft.EntityFrameworkCore`
 * `Microsoft.EntityFrameworkCore.SqlServer`
 * `Microsoft.EntityFrameworkCore.Tools`
+* `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
 
 ### API
 * `Microsoft.EntityFrameworkCore.Design`
 * `Microsoft.EntityFrameworkCore.SqlServer`
+* `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+* `Microsoft.AspNetCore.Authentication.JwtBearer`
 
 ### DAL.Tests
 * `Microsoft.EntityFrameworkCore.InMemory`
