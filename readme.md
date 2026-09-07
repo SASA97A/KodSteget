@@ -35,5 +35,10 @@
 * `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
 * `Microsoft.AspNetCore.Authentication.JwtBearer`
 
+### BLL
+* `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+* `System.IdentityModel.Tokens.Jwt`
+* `Microsoft.IdentityModel.Tokens`
+
 ### DAL.Tests
 * `Microsoft.EntityFrameworkCore.InMemory`
