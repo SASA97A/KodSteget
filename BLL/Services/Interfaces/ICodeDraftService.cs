@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BLL.DTOs.Drafts;
 
 namespace BLL.Services.Interfaces
 {
-    internal class ICodeDraftService
+    public interface ICodeDraftService
     {
+        Task<CodeDraftDto?> GetDraftAsync(string userId, int exerciseId);
+        Task<CodeDraftDto> SaveDraftAsync(string userId, SaveDraftDto dto);
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BLL.DTOs.Drafts
+﻿namespace BLL.DTOs.Drafts
 {
-    internal class CodeDraftDto
+    public class CodeDraftDto
     {
+        public int Id { get; set; }
+        public int ExerciseId { get; set; }
+        public string Code { get; set; } = string.Empty;
+        public DateTime LastSavedAt { get; set; }
     }
 }

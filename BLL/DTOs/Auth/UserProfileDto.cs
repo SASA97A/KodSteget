@@ -1,11 +1,11 @@
 ﻿namespace BLL.DTOs.Auth
 {
-    public class AuthResponseDto
+    public class UserProfileDto
     {
-        public string Token { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public int CurrentLevel { get; set; }
         public int ExperiencePoints { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
