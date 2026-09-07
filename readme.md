@@ -34,6 +34,7 @@
 * `Microsoft.EntityFrameworkCore.SqlServer`
 * `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
 * `Microsoft.AspNetCore.Authentication.JwtBearer`
+* `Swashbuckle.AspNetCore`
 
 ### BLL
 * `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
