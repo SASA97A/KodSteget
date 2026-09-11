@@ -1085,3 +1085,94 @@ form input:focus {
   width: 100%;
   min-width: 0;
 }
+
+/* =========================
+   PROFILE DROPDOWN
+========================= */
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.profile-arrow-open {
+  transform: rotate(180deg);
+}
+
+.profile-dropdown {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: clamp(170px, 14vw, 210px);
+
+  background: white;
+
+  border: 1px solid #aaa;
+
+  z-index: 1000;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.profile-dropdown-info {
+  display: flex;
+  flex-direction: column;
+
+  padding: 13px 15px;
+}
+
+.profile-dropdown-info strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-dropdown-info span {
+  margin-top: 2px;
+
+  font-size: 12px;
+
+  color: #666;
+}
+
+.profile-dropdown-divider {
+  height: 1px;
+
+  background: #ddd;
+}
+
+.logout-button {
+  width: 100%;
+
+  border: none;
+
+  background: white;
+
+  padding: 12px 15px;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #eeeeee;
+}
+
+
+/* MOBIL */
+
+@media (max-width: 700px) {
+  .profile-dropdown {
+    width: 170px;
+
+    top: calc(100% + 10px);
+  }
+}

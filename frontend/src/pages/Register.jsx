@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,60 +23,74 @@ function Register() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    setMessage("");
-    setIsError(false);
+  setMessage("");
+  setIsError(false);
 
-    if (formData.password.length < 6) {
-      setMessage("Lösenordet måste vara minst 6 tecken.");
+  if (formData.password.length < 6) {
+    setMessage("Lösenordet måste vara minst 6 tecken.");
+    setIsError(true);
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const response = await fetch(
+      "https://localhost:7016/api/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      }
+    );
+
+    const responseText = await response.text();
+
+    console.log("Status:", response.status);
+    console.log("Backend-svar:", responseText);
+
+    let data = null;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = null;
+    }
+
+    if (!response.ok) {
+      setMessage(
+        data?.message ||
+          responseText ||
+          "Registreringen misslyckades."
+      );
+
       setIsError(true);
       return;
     }
 
-    try {
-      setLoading(true);
+    setMessage("Kontot skapades!");
+    setIsError(false);
 
-      const response = await fetch(
-        "https://localhost:5173/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-        }
-      );
+    setFormData({
+      email: "",
+      password: "",
+    });
+  } catch (error) {
+    console.error("Fel vid registrering:", error);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.message || "Registreringen misslyckades.");
-        setIsError(true);
-        return;
-      }
-
-      setMessage("Kontot skapades!");
-      setIsError(false);
-
-      setFormData({
-        email: "",
-        password: "",
-      });
-
-      console.log("Registrering lyckades:", data);
-    } catch (error) {
-      console.error("Fel vid registrering:", error);
-
-      setMessage("Kunde inte ansluta till servern.");
-      setIsError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setMessage(`Fel: ${error.message}`);
+    setIsError(true);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="page">
@@ -83,7 +100,10 @@ function Register() {
           <span>KodSteget</span>
         </div>
 
-        <button className="login-top">
+        <button
+          className="login-top"
+          onClick={() => navigate("/login")}
+        >
           LOGGA IN
         </button>
       </header>
@@ -94,27 +114,45 @@ function Register() {
             <span>Bild</span>
           </div>
 
-          <h2>Lär dig programmering steg för steg</h2>
+          <h2>
+            Lär dig programmering steg för steg
+          </h2>
 
           <p>
-            Öva, testa och utvecklas genom roliga övningar och utmaningar.
-            För nybörjare och alla som vill bli bättre.
+            Öva, testa och utvecklas genom roliga
+            övningar och utmaningar. För nybörjare
+            och alla som vill bli bättre.
           </p>
 
           <div className="features">
             <div className="feature">
-              <div className="feature-icon">{"</>"}</div>
-              <span>Lös övningar med kodblock</span>
+              <div className="feature-icon">
+                {"</>"}
+              </div>
+
+              <span>
+                Lös övningar med kodblock
+              </span>
             </div>
 
             <div className="feature">
-              <div className="feature-icon">✓</div>
-              <span>Få direkt feedback</span>
+              <div className="feature-icon">
+                ✓
+              </div>
+
+              <span>
+                Få direkt feedback
+              </span>
             </div>
 
             <div className="feature">
-              <div className="feature-icon">↗</div>
-              <span>Följ din utveckling</span>
+              <div className="feature-icon">
+                ↗
+              </div>
+
+              <span>
+                Följ din utveckling
+              </span>
             </div>
           </div>
         </section>
@@ -124,10 +162,15 @@ function Register() {
         <section className="form-section">
           <div className="form-wrapper">
             <h1>Skapa konto</h1>
-            <p className="subtitle">Börja din resa idag</p>
+
+            <p className="subtitle">
+              Börja din resa idag
+            </p>
 
             <form onSubmit={handleSubmit}>
-              <label htmlFor="email">E-post</label>
+              <label htmlFor="email">
+                E-post
+              </label>
 
               <input
                 type="email"
@@ -139,7 +182,9 @@ function Register() {
                 required
               />
 
-              <label htmlFor="password">Lösenord</label>
+              <label htmlFor="password">
+                Lösenord
+              </label>
 
               <input
                 type="password"
@@ -153,7 +198,13 @@ function Register() {
               />
 
               {message && (
-                <p className={isError ? "message error" : "message success"}>
+                <p
+                  className={
+                    isError
+                      ? "message error"
+                      : "message success"
+                  }
+                >
                   {message}
                 </p>
               )}
@@ -163,7 +214,9 @@ function Register() {
                 className="create-button"
                 disabled={loading}
               >
-                {loading ? "Skapar konto..." : "Skapa konto"}
+                {loading
+                  ? "Skapar konto..."
+                  : "Skapa konto"}
               </button>
 
               <div className="or-row">
@@ -175,6 +228,7 @@ function Register() {
               <button
                 type="button"
                 className="login-button"
+                onClick={() => navigate("/login")}
               >
                 Logga in
               </button>
