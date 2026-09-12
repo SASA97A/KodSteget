@@ -1176,3 +1176,13 @@ form input:focus {
     top: calc(100% + 10px);
   }
 }
+
+.hero-image {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 24px;
+  border: 1px solid #aaa;
+}

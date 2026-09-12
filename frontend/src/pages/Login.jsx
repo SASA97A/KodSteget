@@ -57,7 +57,7 @@ function Login() {
 
       console.log("Login lyckades:", data);
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Fel vid inloggning:", error);
 

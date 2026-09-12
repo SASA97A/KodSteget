@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import heroImage from "../assets/kodsteget-hero.png";
 
 function Register() {
   const navigate = useNavigate();
@@ -110,9 +111,9 @@ function Register() {
 
       <main className="register-layout">
         <section className="info-section">
-          <div className="hero-image-placeholder">
-            <span>Bild</span>
-          </div>
+          <img src={heroImage} 
+          alt="Lär dig programmering med KodSteget" 
+          className="hero-image"/>
 
           <h2>
             Lär dig programmering steg för steg

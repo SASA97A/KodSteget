@@ -14,6 +14,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
+          path="/"
+          element={<Register />}
+        />
+
+        <Route
           path="/register"
           element={<Register />}
         />
@@ -24,7 +29,7 @@ function App() {
         />
 
         <Route
-          path="/"
+          path="/dashboard"
           element={<Dashboard />}
         />
 
