@@ -1,0 +1,1188 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: #222;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+/* =========================
+   GEMENSAMT
+========================= */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 72px;
+  background: white;
+  border-bottom: 1px solid #cfcfcf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.logo-box {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.login-top {
+  background: white;
+  border: 1px solid #999;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* =========================
+   REGISTER
+========================= */
+
+.register-layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  background: white;
+}
+
+.info-section {
+  padding: 55px 70px 40px;
+}
+
+.hero-image-placeholder {
+  width: 260px;
+  height: 190px;
+  border: 1px solid #999;
+  margin-bottom: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.hero-image-placeholder::before,
+.hero-image-placeholder::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 1px;
+  background: #bbb;
+  left: -30px;
+  top: 50%;
+}
+
+.hero-image-placeholder::before {
+  transform: rotate(36deg);
+}
+
+.hero-image-placeholder::after {
+  transform: rotate(-36deg);
+}
+
+.info-section h2 {
+  max-width: 330px;
+  font-size: 24px;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
+.info-section > p {
+  max-width: 380px;
+  line-height: 1.45;
+  margin: 0 0 28px;
+  color: #444;
+}
+
+.features {
+  display: flex;
+  gap: 28px;
+}
+
+.feature {
+  width: 110px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #999;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  background: #d8d8d8;
+  margin: 45px 0;
+}
+
+.form-section {
+  padding: 55px 70px 40px;
+}
+
+.form-wrapper {
+  max-width: 370px;
+}
+
+.form-wrapper h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.subtitle {
+  margin: 2px 0 24px;
+  font-size: 14px;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+form input {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #aaa;
+  margin-bottom: 14px;
+  outline: none;
+}
+
+form input:focus {
+  border-color: #555;
+}
+
+.create-button {
+  height: 42px;
+  background: #cfcaca;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+.create-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.or-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.or-row span {
+  flex: 1;
+  height: 1px;
+  background: #aaa;
+}
+
+.or-row p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.login-button {
+  height: 42px;
+  background: white;
+  border: 1px solid #888;
+  cursor: pointer;
+}
+
+.message {
+  margin: 0 0 14px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.message.error {
+  background-color: #f8dddd;
+  border: 1px solid #d99;
+}
+
+.message.success {
+  background-color: #dff0df;
+  border: 1px solid #9c9;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-page {
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+}
+
+.dashboard-topbar {
+  height: clamp(64px, 7vh, 82px);
+  background: white;
+  border-bottom: 1px solid #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 2.5vw, 40px);
+}
+
+.dashboard-topbar .brand {
+  font-size: clamp(17px, 1.4vw, 22px);
+}
+
+.dashboard-topbar .logo-box {
+  width: clamp(34px, 3vw, 44px);
+  height: clamp(34px, 3vw, 44px);
+}
+
+.profile-button {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: clamp(14px, 1.1vw, 17px);
+}
+
+.profile-icon {
+  width: clamp(36px, 3vw, 44px);
+  height: clamp(36px, 3vw, 44px);
+  border: 2px solid #111;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profile-head {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.profile-body {
+  width: 24px;
+  height: 12px;
+  background: #111;
+  border-radius: 12px 12px 0 0;
+  margin-top: 2px;
+}
+
+
+/* =========================
+   DASHBOARD LAYOUT
+========================= */
+
+.dashboard-layout {
+  min-height: calc(100vh - 72px);
+
+  display: grid;
+
+  grid-template-columns:
+    clamp(150px, 14vw, 220px)
+    1fr;
+
+  background: white;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  border-right: 1px solid #aaa;
+  padding:
+    clamp(20px, 3vh, 40px)
+    clamp(8px, 1vw, 18px);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vh, 14px);
+}
+
+.sidebar-item {
+  width: 100%;
+  min-height: clamp(38px, 4vh, 48px);
+
+  border: none;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+
+  gap: clamp(7px, 0.8vw, 12px);
+
+  padding:
+    clamp(7px, 0.8vw, 11px)
+    clamp(8px, 1vw, 14px);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  font-size: clamp(13px, 1.05vw, 16px);
+}
+
+.sidebar-item:hover {
+  background: #eeeeee;
+}
+
+.sidebar-item.active {
+  background: #dddddd;
+}
+
+.sidebar-icon {
+  width: clamp(18px, 1.5vw, 24px);
+  font-size: clamp(18px, 1.5vw, 23px);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.dashboard-main {
+  width: 100%;
+
+  padding:
+    clamp(24px, 4vh, 55px)
+    clamp(24px, 4vw, 70px);
+}
+
+.dashboard-content {
+  width: min(100%, 78vw);
+
+  max-width: 1000px;
+}
+
+.dashboard-heading {
+  margin-bottom: clamp(20px, 2.5vh, 32px);
+}
+
+.dashboard-heading h1 {
+  font-size: clamp(20px, 1.6vw, 28px);
+  font-weight: normal;
+  margin: 0 0 4px;
+}
+
+.dashboard-heading p {
+  margin: 0;
+  font-size: clamp(13px, 1vw, 16px);
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.dashboard-card {
+  width: 100%;
+
+  border: 1px solid #aaa;
+
+  background: white;
+
+  margin-bottom: clamp(14px, 1.6vh, 22px);
+}
+
+.card-label {
+  font-size: clamp(13px, 1vw, 16px);
+}
+
+
+/* =========================
+   CURRENT LEVEL
+========================= */
+
+.level-card {
+  padding:
+    clamp(14px, 1.5vw, 22px)
+    clamp(16px, 2vw, 28px)
+    clamp(28px, 3vw, 45px);
+}
+
+.level-card h2 {
+  font-size: clamp(17px, 1.4vw, 22px);
+
+  text-align: center;
+
+  margin: 0 0 clamp(8px, 1vw, 14px);
+}
+
+.progress-row {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(8px, 1vw, 14px);
+}
+
+.progress-bar {
+  flex: 1;
+
+  max-width: 80%;
+
+  height: clamp(18px, 1.8vw, 26px);
+
+  border: 1px solid #d2d2d2;
+
+  background: white;
+}
+
+.progress-fill {
+  width: 70%;
+  height: 100%;
+
+  background: #d5d5d5;
+}
+
+.progress-percent {
+  font-size: clamp(13px, 1vw, 16px);
+}
+
+
+/* =========================
+   NEXT LEVEL
+========================= */
+
+.next-level-card {
+  padding:
+    clamp(10px, 1vw, 16px)
+    clamp(10px, 1.2vw, 18px);
+}
+
+.requirement-row {
+  min-height: clamp(28px, 3vw, 38px);
+
+  border-bottom: 1px solid #aaa;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 4px 8px;
+
+  font-size: clamp(13px, 1vw, 16px);
+}
+
+.requirement-row:last-child {
+  border-bottom: none;
+}
+
+.requirement-left {
+  display: flex;
+  align-items: center;
+
+  gap: clamp(6px, 0.8vw, 10px);
+}
+
+.check-box {
+  width: clamp(18px, 1.5vw, 22px);
+  height: clamp(18px, 1.5vw, 22px);
+
+  border: 1px solid #aaa;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================
+   LEVELS
+========================= */
+
+.levels-card {
+  padding:
+    clamp(10px, 1vw, 16px)
+    clamp(10px, 1.2vw, 18px)
+    clamp(14px, 1.5vw, 22px);
+}
+
+.levels {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: clamp(6px, 0.8vw, 10px);
+}
+
+.level-box {
+  flex: 0 1 150px;
+
+  min-width: 90px;
+
+  height: clamp(42px, 4vw, 58px);
+
+  border: 1px solid #aaa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(4px, 0.6vw, 8px);
+}
+
+.level-box span {
+  display: block;
+
+  font-size: clamp(11px, 0.9vw, 14px);
+
+  white-space: nowrap;
+}
+
+.level-box small {
+  display: block;
+
+  font-size: clamp(7px, 0.65vw, 10px);
+}
+
+.level-status,
+.level-number {
+  width: clamp(23px, 2vw, 30px);
+  height: clamp(23px, 2vw, 30px);
+
+  border: 1px solid #999;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: clamp(10px, 0.9vw, 13px);
+
+  flex-shrink: 0;
+}
+
+.level-line {
+  flex: 1;
+
+  min-width: 14px;
+
+  height: 1px;
+
+  background: #aaa;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard-layout {
+    grid-template-columns: 150px 1fr;
+  }
+
+  .dashboard-content {
+    width: 100%;
+    max-width: none;
+  }
+
+  .dashboard-main {
+    padding: 30px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .dashboard-topbar {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .dashboard-topbar .brand {
+    font-size: 16px;
+  }
+
+  .dashboard-topbar .logo-box {
+    width: 32px;
+    height: 32px;
+  }
+
+  .profile-button {
+    font-size: 13px;
+  }
+
+  .profile-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .dashboard-layout {
+    display: block;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #aaa;
+
+    padding: 8px;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+
+    overflow-x: auto;
+
+    gap: 6px;
+
+    scrollbar-width: none;
+  }
+
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-item {
+    width: auto;
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+
+    font-size: 13px;
+
+    padding: 8px 10px;
+  }
+
+  .dashboard-main {
+    padding: 22px 16px 40px;
+  }
+
+  .dashboard-content {
+    width: 100%;
+
+    max-width: none;
+  }
+
+  .dashboard-heading h1 {
+    font-size: 21px;
+  }
+
+  .progress-bar {
+    max-width: none;
+  }
+
+  .levels {
+    overflow-x: auto;
+
+    padding-bottom: 6px;
+  }
+
+  .level-box {
+    flex: 0 0 95px;
+  }
+
+  .level-line {
+    flex: 0 0 20px;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 430px) {
+
+  .profile-button > span:nth-child(2) {
+    display: none;
+  }
+
+  .dashboard-main {
+    padding: 18px 12px 30px;
+  }
+
+  .level-card {
+    padding: 12px 12px 26px;
+  }
+
+  .progress-row {
+    gap: 6px;
+  }
+
+  .progress-percent {
+    font-size: 12px;
+  }
+
+  .requirement-row {
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   EXERCISES PAGE
+========================= */
+
+.exercises-main {
+  width: 100%;
+  padding:
+    clamp(24px, 4vh, 55px)
+    clamp(24px, 4vw, 70px);
+}
+
+.exercises-content {
+  width: min(100%, 1100px);
+}
+
+.exercises-heading {
+  margin-bottom: clamp(24px, 3vw, 38px);
+}
+
+.exercises-heading h1 {
+  font-size: clamp(22px, 1.8vw, 30px);
+  font-weight: normal;
+  margin: 0 0 5px;
+}
+
+.exercises-heading p {
+  margin: 0;
+  font-size: clamp(13px, 1vw, 16px);
+  color: #444;
+}
+
+
+/* =========================
+   LEVEL GRID
+========================= */
+
+.level-selection-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(250px, 1fr));
+
+  gap: clamp(16px, 2vw, 24px);
+}
+
+
+/* =========================
+   LEVEL CARD
+========================= */
+
+.exercise-level-card {
+  width: 100%;
+
+  min-height: clamp(210px, 18vw, 270px);
+
+  background: white;
+
+  border: 1px solid #999;
+
+  padding: clamp(16px, 2vw, 24px);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.exercise-level-card:hover:not(:disabled) {
+  background: #f7f7f7;
+  transform: translateY(-2px);
+}
+
+.exercise-level-card:disabled {
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   CARD TOP
+========================= */
+
+.exercise-level-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.exercise-level-top > div {
+  display: flex;
+  align-items: center;
+
+  gap: clamp(10px, 1vw, 15px);
+}
+
+.exercise-level-number {
+  width: clamp(38px, 3vw, 48px);
+  height: clamp(38px, 3vw, 48px);
+
+  border: 1px solid #777;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  font-size: clamp(16px, 1.3vw, 20px);
+}
+
+.exercise-level-top h2 {
+  margin: 0 0 3px;
+
+  font-size: clamp(17px, 1.3vw, 21px);
+}
+
+.exercise-level-top p {
+  margin: 0;
+
+  font-size: clamp(12px, 0.9vw, 14px);
+
+  color: #555;
+}
+
+.level-lock {
+  font-size: clamp(20px, 2vw, 27px);
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.exercise-progress-info {
+  margin-top: auto;
+
+  padding-top: 25px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.exercise-progress-bar {
+  width: 100%;
+  height: clamp(10px, 1vw, 14px);
+
+  margin-top: 7px;
+
+  border: 1px solid #bbb;
+
+  background: white;
+}
+
+.exercise-progress-fill {
+  height: 100%;
+
+  background: #d2d2d2;
+}
+
+.exercise-level-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 14px;
+
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.exercise-open {
+  font-weight: bold;
+}
+
+
+/* =========================
+   LOCKED LEVEL
+========================= */
+
+.locked-level {
+  background: #f2f2f2;
+  color: #777;
+}
+
+.locked-level .exercise-level-number {
+  border-color: #bbb;
+}
+
+.unlock-message {
+  margin-top: auto;
+
+  padding-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.unlock-message strong {
+  color: #444;
+}
+
+.unlock-progress {
+  margin-top: 5px;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+  .exercises-main {
+    padding: 30px;
+  }
+
+  .level-selection-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .exercises-main {
+    padding: 22px 16px 40px;
+  }
+
+  .level-selection-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .exercise-level-card {
+    min-height: 200px;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 430px) {
+
+  .exercises-main {
+    padding: 18px 12px 30px;
+  }
+
+  .exercise-level-card {
+    padding: 14px;
+  }
+
+  .exercise-level-top p {
+    max-width: 190px;
+  }
+}
+
+.sidebar-item {
+  width: 100%;
+  min-height: clamp(38px, 4vh, 48px);
+
+  border: none;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+
+  gap: clamp(7px, 0.8vw, 12px);
+
+  padding:
+    clamp(7px, 0.8vw, 11px)
+    clamp(8px, 1vw, 14px);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  font-size: clamp(13px, 1.05vw, 16px);
+
+  color: #222;
+  text-decoration: none;
+}
+
+.sidebar-item:hover {
+  background: #eeeeee;
+}
+
+.sidebar-item.active {
+  background: #dddddd;
+}
+
+.app-main {
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================
+   PROFILE DROPDOWN
+========================= */
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.profile-arrow-open {
+  transform: rotate(180deg);
+}
+
+.profile-dropdown {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: clamp(170px, 14vw, 210px);
+
+  background: white;
+
+  border: 1px solid #aaa;
+
+  z-index: 1000;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.profile-dropdown-info {
+  display: flex;
+  flex-direction: column;
+
+  padding: 13px 15px;
+}
+
+.profile-dropdown-info strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-dropdown-info span {
+  margin-top: 2px;
+
+  font-size: 12px;
+
+  color: #666;
+}
+
+.profile-dropdown-divider {
+  height: 1px;
+
+  background: #ddd;
+}
+
+.logout-button {
+  width: 100%;
+
+  border: none;
+
+  background: white;
+
+  padding: 12px 15px;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #eeeeee;
+}
+
+
+/* MOBIL */
+
+@media (max-width: 700px) {
+  .profile-dropdown {
+    width: 170px;
+
+    top: calc(100% + 10px);
+  }
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 24px;
+  border: 1px solid #aaa;
+}

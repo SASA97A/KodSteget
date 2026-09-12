@@ -30,14 +30,14 @@ namespace BLL.Services.Implementations
                 _config["Jwt:Key"] ?? "super_secret_temporary_key_for_development_purposes_123!")); // change later
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(24),
-                SigningCredentials = creds,
-                Issuer = _config["Jwt:Issuer"] ?? "CodeLearningApi",
-                Audience = _config["Jwt:Audience"] ?? "CodeLearningClient"
-            };
+           var tokenDescriptor = new SecurityTokenDescriptor
+{
+    Subject = new ClaimsIdentity(claims),
+    Expires = DateTime.UtcNow.AddHours(24),
+    SigningCredentials = creds,
+    Issuer = _config["Jwt:Issuer"] ?? "KodStegetApi",
+    Audience = _config["Jwt:Audience"] ?? "KodStegetClient"
+};
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
