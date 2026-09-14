@@ -1,19 +1,21 @@
-import { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 
 function AppLayout({ children }) {
   const navigate = useNavigate();
-  const [profileOpen, setProfileOpen] = useState(false);
+
+  const [profileOpen, setProfileOpen] =
+    useState(false);
+
   const profileRef = useRef(null);
-
-  const handleLogout = () => {
-    setProfileOpen(false);
-
-    // Här kan vi senare även ta bort token/session
-    // localStorage.removeItem("token");
-
-    navigate("/register");
-  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -25,57 +27,82 @@ function AppLayout({ children }) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
     };
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    setProfileOpen(false);
+
+    navigate("/login");
+  };
 
   return (
     <div className="dashboard-page">
       <header className="dashboard-topbar">
         <div className="brand">
-          <div className="logo-box"></div>
+          <div className="logo-box">
+            KS
+          </div>
+
           <span>KodSteget</span>
         </div>
 
-        <div className="profile-menu" ref={profileRef}>
+        <div
+          className="profile-menu"
+          ref={profileRef}
+        >
           <button
+            type="button"
             className="profile-button"
-            onClick={() => setProfileOpen((prev) => !prev)}
-            aria-expanded={profileOpen}
-            aria-haspopup="menu"
+            onClick={() =>
+              setProfileOpen(
+                (previous) => !previous
+              )
+            }
           >
-            <span className="profile-icon">
-              <span className="profile-head"></span>
-              <span className="profile-body"></span>
-            </span>
+            <div className="profile-icon">
+              <div className="profile-head" />
+              <div className="profile-body" />
+            </div>
 
             <span>Profil</span>
 
             <span
               className={`profile-arrow ${
-                profileOpen ? "profile-arrow-open" : ""
+                profileOpen
+                  ? "profile-arrow-open"
+                  : ""
               }`}
             >
-              ↓
+              ▾
             </span>
           </button>
 
           {profileOpen && (
-            <div className="profile-dropdown" role="menu">
+            <div className="profile-dropdown">
               <div className="profile-dropdown-info">
-                <strong>Elin</strong>
-                <span>Mitt konto</span>
+                <strong>Inloggad</strong>
+                <span>KodSteget</span>
               </div>
 
-              <div className="profile-dropdown-divider"></div>
+              <div className="profile-dropdown-divider" />
 
               <button
+                type="button"
                 className="logout-button"
                 onClick={handleLogout}
-                role="menuitem"
               >
                 Logga ut
               </button>
@@ -88,71 +115,85 @@ function AppLayout({ children }) {
         <aside className="sidebar">
           <nav className="sidebar-nav">
             <NavLink
-              to="/"
-              end
+              to="/dashboard"
               className={({ isActive }) =>
-                isActive
-                  ? "sidebar-item active"
-                  : "sidebar-item"
+                `sidebar-item ${
+                  isActive ? "active" : ""
+                }`
               }
             >
-              <span className="sidebar-icon">⌂</span>
-              Dashboard
+              <span className="sidebar-icon">
+                ⌂
+              </span>
+
+              <span>Dashboard</span>
             </NavLink>
 
             <NavLink
               to="/exercises"
               className={({ isActive }) =>
-                isActive
-                  ? "sidebar-item active"
-                  : "sidebar-item"
+                `sidebar-item ${
+                  isActive ? "active" : ""
+                }`
               }
             >
-              <span className="sidebar-icon">⌑</span>
-              Övningar
+              <span className="sidebar-icon">
+                ◫
+              </span>
+
+              <span>Övningar</span>
             </NavLink>
 
             <NavLink
               to="/results"
               className={({ isActive }) =>
-                isActive
-                  ? "sidebar-item active"
-                  : "sidebar-item"
+                `sidebar-item ${
+                  isActive ? "active" : ""
+                }`
               }
             >
-              <span className="sidebar-icon">▥</span>
-              Resultat
+              <span className="sidebar-icon">
+                ▤
+              </span>
+
+              <span>Resultat</span>
             </NavLink>
 
             <NavLink
               to="/challenges"
               className={({ isActive }) =>
-                isActive
-                  ? "sidebar-item active"
-                  : "sidebar-item"
+                `sidebar-item ${
+                  isActive ? "active" : ""
+                }`
               }
             >
-              <span className="sidebar-icon">♜</span>
-              Utmaningar
+              <span className="sidebar-icon">
+                ◇
+              </span>
+
+              <span>Utmaningar</span>
             </NavLink>
 
             <NavLink
               to="/settings"
               className={({ isActive }) =>
-                isActive
-                  ? "sidebar-item active"
-                  : "sidebar-item"
+                `sidebar-item ${
+                  isActive ? "active" : ""
+                }`
               }
             >
-              <span className="sidebar-icon">⚙</span>
-              Inställningar
+              <span className="sidebar-icon">
+                ⚙
+              </span>
+
+              <span>Inställningar</span>
             </NavLink>
           </nav>
         </aside>
 
-        <main className="app-main">
+        <div className="app-main">
           {children}
-        </main>
+        </div>
       </div>
     </div>
   );
