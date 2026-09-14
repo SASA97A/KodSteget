@@ -57,10 +57,11 @@ function Login() {
 
       console.log("Login lyckades:", data);
 
+      localStorage.setItem("token", data.token);
       navigate("/dashboard");
     } catch (error) {
       console.error("Fel vid inloggning:", error);
-
+      
       setMessage("Kunde inte ansluta till servern.");
       setIsError(true);
     } finally {
