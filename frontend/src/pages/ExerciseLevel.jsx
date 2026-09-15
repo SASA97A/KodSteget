@@ -63,16 +63,37 @@ function ExerciseLevel() {
               <button
                 key={exercise.id}
                 type="button"
-                className="exercise-list-item"
+                className={`exercise-list-item ${
+                  exercise.isCompleted ? "exercise-completed-item" : ""
+                }`}
                 onClick={() => navigate(`/exercises/${level}/${exercise.id}`)}
               >
-                <div className="exercise-list-number">{index + 1}</div>
+                <div
+                  className={`exercise-list-number ${
+                    exercise.isCompleted ? "exercise-number-completed" : ""
+                  }`}
+                >
+                  {exercise.isCompleted ? "✓" : index + 1}
+                </div>
+
                 <div className="exercise-list-text">
-                  <h2>{exercise.title}</h2>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <h2>{exercise.title}</h2>
+                    {exercise.isCompleted && (
+                      <span className="badge-completed">Klar</span>
+                    )}
+                  </div>
                   <p>XP: {exercise.xpValue}</p>
                 </div>
+
                 <div className="exercise-list-action">
-                  <span>Starta</span>
+                  <span>{exercise.isCompleted ? "Öva igen" : "Starta"}</span>
                   <span className="exercise-list-arrow">→</span>
                 </div>
               </button>
