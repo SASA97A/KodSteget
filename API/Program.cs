@@ -54,6 +54,9 @@ builder.Services.AddScoped<ICodeDraftRepository, CodeDraftRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICodeDraftService, CodeDraftService>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
 // 4. CORS för React
 builder.Services.AddCors(options =>
@@ -75,7 +78,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+});
 builder.Services.AddEndpointsApiExplorer();
 
 // 5. Swagger
@@ -105,6 +111,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+//Seed database
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DbInitializer.SeedAsync(dbContext);
+}
 
 if (app.Environment.IsDevelopment())
 {

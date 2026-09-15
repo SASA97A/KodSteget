@@ -1,42 +1,25 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import {
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function AppLayout({ children }) {
   const navigate = useNavigate();
 
-  const [profileOpen, setProfileOpen] =
-    useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
         setProfileOpen(false);
       }
     };
 
-    document.addEventListener(
-      "mousedown",
-      handleClickOutside
-    );
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -52,25 +35,16 @@ function AppLayout({ children }) {
     <div className="dashboard-page">
       <header className="dashboard-topbar">
         <div className="brand">
-          <div className="logo-box">
-            KS
-          </div>
+          <div className="logo-box">KS</div>
 
           <span>KodSteget</span>
         </div>
 
-        <div
-          className="profile-menu"
-          ref={profileRef}
-        >
+        <div className="profile-menu" ref={profileRef}>
           <button
             type="button"
             className="profile-button"
-            onClick={() =>
-              setProfileOpen(
-                (previous) => !previous
-              )
-            }
+            onClick={() => setProfileOpen((previous) => !previous)}
           >
             <div className="profile-icon">
               <div className="profile-head" />
@@ -81,9 +55,7 @@ function AppLayout({ children }) {
 
             <span
               className={`profile-arrow ${
-                profileOpen
-                  ? "profile-arrow-open"
-                  : ""
+                profileOpen ? "profile-arrow-open" : ""
               }`}
             >
               ▾
@@ -98,6 +70,18 @@ function AppLayout({ children }) {
               </div>
 
               <div className="profile-dropdown-divider" />
+
+              {/* Ny knapp till profilen */}
+              <button
+                type="button"
+                className="profile-dropdown-item-btn"
+                onClick={() => {
+                  setProfileOpen(false);
+                  navigate("/profile");
+                }}
+              >
+                Min profil
+              </button>
 
               <button
                 type="button"
@@ -117,14 +101,10 @@ function AppLayout({ children }) {
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                `sidebar-item ${
-                  isActive ? "active" : ""
-                }`
+                `sidebar-item ${isActive ? "active" : ""}`
               }
             >
-              <span className="sidebar-icon">
-                ⌂
-              </span>
+              <span className="sidebar-icon">⌂</span>
 
               <span>Dashboard</span>
             </NavLink>
@@ -132,14 +112,10 @@ function AppLayout({ children }) {
             <NavLink
               to="/exercises"
               className={({ isActive }) =>
-                `sidebar-item ${
-                  isActive ? "active" : ""
-                }`
+                `sidebar-item ${isActive ? "active" : ""}`
               }
             >
-              <span className="sidebar-icon">
-                ◫
-              </span>
+              <span className="sidebar-icon">◫</span>
 
               <span>Övningar</span>
             </NavLink>
@@ -147,53 +123,17 @@ function AppLayout({ children }) {
             <NavLink
               to="/results"
               className={({ isActive }) =>
-                `sidebar-item ${
-                  isActive ? "active" : ""
-                }`
+                `sidebar-item ${isActive ? "active" : ""}`
               }
             >
-              <span className="sidebar-icon">
-                ▤
-              </span>
+              <span className="sidebar-icon">▤</span>
 
               <span>Resultat</span>
-            </NavLink>
-
-            <NavLink
-              to="/challenges"
-              className={({ isActive }) =>
-                `sidebar-item ${
-                  isActive ? "active" : ""
-                }`
-              }
-            >
-              <span className="sidebar-icon">
-                ◇
-              </span>
-
-              <span>Utmaningar</span>
-            </NavLink>
-
-            <NavLink
-              to="/settings"
-              className={({ isActive }) =>
-                `sidebar-item ${
-                  isActive ? "active" : ""
-                }`
-              }
-            >
-              <span className="sidebar-icon">
-                ⚙
-              </span>
-
-              <span>Inställningar</span>
             </NavLink>
           </nav>
         </aside>
 
-        <div className="app-main">
-          {children}
-        </div>
+        <div className="app-main">{children}</div>
       </div>
     </div>
   );

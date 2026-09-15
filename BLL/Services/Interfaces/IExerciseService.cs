@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BLL.DTOs.Exercises;
 
 namespace BLL.Services.Interfaces
 {
-    internal class IExerciseService
+    public interface IExerciseService
     {
+        Task<IEnumerable<ModuleDto>> GetModulesWithExercisesAsync(string userId);
+        Task<ExerciseDetailDto?> GetExerciseByIdAsync(int exerciseId);
+        Task<SubmissionResultDto> EvaluateSubmissionAsync(string userId, SubmitCodeDto dto);
+        Task<IEnumerable<SubmissionHistoryDto>> GetUserSubmissionHistoryAsync(string userId);
     }
 }

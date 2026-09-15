@@ -1,8 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
@@ -10,6 +6,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Exercises from "./pages/Exercises.jsx";
 import ExerciseLevel from "./pages/ExerciseLevel.jsx";
 import ExerciseTask from "./pages/ExerciseTask.jsx";
+import Profile from "./pages/Profile.jsx";
+import Results from "./pages/Results.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -17,19 +15,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Register />}
-        />
+        <Route path="/" element={<Register />} />
+
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/login" element={<Login />} />
 
         <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-          path="/login"
-          element={<Login />}
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
 
         <Route
@@ -64,6 +62,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ExerciseTask />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/results"
+          element={
+            <ProtectedRoute>
+              <Results />
             </ProtectedRoute>
           }
         />

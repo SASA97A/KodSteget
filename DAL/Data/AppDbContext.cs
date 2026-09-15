@@ -13,6 +13,8 @@ namespace DAL.Data
         public DbSet<CourseModule> CourseModules => Set<CourseModule>();
         public DbSet<Exercise> Exercises => Set<Exercise>();
         public DbSet<CodeDraft> CodeDrafts => Set<CodeDraft>();
+        public DbSet<ExerciseTestCase> ExerciseTestCases => Set<ExerciseTestCase>();
+        public DbSet<Submission> Submissions => Set<Submission>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
