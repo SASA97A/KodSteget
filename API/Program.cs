@@ -109,6 +109,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+//Seed database
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DbInitializer.SeedAsync(dbContext);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

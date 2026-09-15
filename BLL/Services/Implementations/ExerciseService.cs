@@ -2,6 +2,7 @@
 using BLL.Services.Interfaces;
 using DAL.Entities;
 using DAL.Repositories.Interfaces;
+using System.Text.Json;
 
 namespace BLL.Services.Implementations
 {
@@ -45,17 +46,13 @@ namespace BLL.Services.Implementations
             return new ExerciseDetailDto
             {
                 Id = exercise.Id,
+                ModuleId = exercise.ModuleId,
                 Title = exercise.Title,
                 Description = exercise.Description,
-                StarterCode = exercise.StarterCode,
-                CharacterLimit = exercise.CharacterLimit,
-                PublicTestCases = exercise.TestCases
-                    .Where(tc => !tc.IsHidden)
-                    .Select(tc => new TestCaseDto
-                    {
-                        InputData = tc.InputData,
-                        ExpectedOutput = tc.ExpectedOutput
-                    }).ToList()
+                Instruction = exercise.Instruction,
+                Blocks = JsonSerializer.Deserialize<List<BlockDto>>(exercise.BlocksJson) ?? new(),
+                CorrectOrder = JsonSerializer.Deserialize<List<string>>(exercise.CorrectOrderJson) ?? new(),
+                XpValue = exercise.XpValue
             };
         }
 
