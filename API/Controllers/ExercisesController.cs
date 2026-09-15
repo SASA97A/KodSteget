@@ -1,5 +1,7 @@
 ﻿using BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -14,10 +16,15 @@ namespace API.Controllers
             _exerciseService = exerciseService;
         }
 
+        [Authorize]
         [HttpGet("modules")]
         public async Task<IActionResult> GetModules()
         {
-            var modules = await _exerciseService.GetModulesWithExercisesAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var modules = await _exerciseService.GetModulesWithExercisesAsync(userId);
             return Ok(modules);
         }
 

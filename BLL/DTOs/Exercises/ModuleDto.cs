@@ -1,0 +1,13 @@
+﻿namespace BLL.DTOs.Exercises
+{
+    public class ModuleDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public int OrderIndex { get; set; }
+        public int ProgressPercent { get; set; }
+        public bool IsUnlocked { get; set; }
+        public List<ExerciseDto> Exercises { get; set; } = new();
+    }
+}

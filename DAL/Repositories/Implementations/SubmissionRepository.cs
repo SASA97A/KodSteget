@@ -21,6 +21,15 @@ namespace DAL.Repositories.Implementations
             return submission;
         }
 
+        public async Task<List<int>> GetPassedExerciseIdsAsync(string userId)
+        {
+            return await _context.Submissions
+                .Where(s => s.UserId == userId && s.IsPassed)
+                .Select(s => s.ExerciseId)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Submission>> GetUserSubmissionsAsync(string userId, int exerciseId)
         {
             return await _context.Submissions
