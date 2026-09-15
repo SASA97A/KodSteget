@@ -8,6 +8,7 @@ function ExerciseTask() {
   const { level, exerciseId } = useParams();
 
   const [exercise, setExercise] = useState(null);
+  const [levelExercises, setLevelExercises] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [solution, setSolution] = useState([]);
@@ -18,18 +19,30 @@ function ExerciseTask() {
   const [selectedBlockId, setSelectedBlockId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Hämta uppgiften från backend
+  // 1. Hämta övningsdata och modulens lista över övningar från backend
   useEffect(() => {
-    async function loadExercise() {
+    async function loadData() {
       setLoading(true);
       try {
-        const res = await fetchWithAuth(`/exercises/${exerciseId}`);
-        if (res.ok) {
-          const data = await res.json();
+        const [exerciseRes, modulesRes] = await Promise.all([
+          fetchWithAuth(`/exercises/${exerciseId}`),
+          fetchWithAuth(`/exercises/modules`),
+        ]);
+
+        if (exerciseRes.ok) {
+          const data = await exerciseRes.json();
           setExercise(data);
           setSolution(Array(data.correctOrder.length).fill(null));
         } else {
           setExercise(null);
+        }
+
+        if (modulesRes.ok) {
+          const modules = await modulesRes.json();
+          const currentModule = modules.find((m) => m.id === Number(level));
+          if (currentModule) {
+            setLevelExercises(currentModule.exercises);
+          }
         }
       } catch (err) {
         console.error("Fel vid laddning av övning:", err);
@@ -38,7 +51,7 @@ function ExerciseTask() {
       }
     }
 
-    loadExercise();
+    loadData();
     setMessage("");
     setResultStatus("");
     setDraggedBlockId(null);
@@ -46,8 +59,11 @@ function ExerciseTask() {
     setSelectedBlockId(null);
   }, [exerciseId, level]);
 
+  // 2. Blanda blocken när övningen ändras
   const shuffledBlocks = useMemo(() => {
-    if (!exercise || !exercise.blocks) return [];
+    if (!exercise || !exercise.blocks) {
+      return [];
+    }
     return [...exercise.blocks].sort(() => Math.random() - 0.5);
   }, [exercise]);
 
@@ -65,7 +81,10 @@ function ExerciseTask() {
         <main className="exercise-task-main">
           <div style={{ padding: "40px" }}>
             <h1>Övningen kunde inte hittas</h1>
-            <button type="button" onClick={() => navigate("/exercises")}>
+            <button
+              type="button"
+              onClick={() => navigate(`/exercises/${level}`)}
+            >
               ← Tillbaka till övningar
             </button>
           </div>
@@ -77,7 +96,10 @@ function ExerciseTask() {
   const placedBlocks = solution.filter(Boolean).length;
   const allBlocksPlaced = placedBlocks === exercise.correctOrder.length;
 
-  // Drag & Drop och Block-klick
+  /* =========================
+     DRAG & DROP
+  ========================= */
+
   const handleDragStart = (event, block) => {
     event.dataTransfer.effectAllowed = "move";
     event.dataTransfer.setData("application/json", JSON.stringify(block));
@@ -96,18 +118,24 @@ function ExerciseTask() {
     event.dataTransfer.dropEffect = "move";
   };
 
+  /* =========================
+     FLYTTA BLOCK
+  ========================= */
+
   const moveBlockToSlot = (block, targetIndex) => {
     setSolution((previous) => {
       const updated = [...previous];
       const sourceIndex = updated.findIndex((item) => item?.id === block.id);
       const targetBlock = updated[targetIndex];
 
+      // Om blocket redan finns i lösningen byter de plats
       if (sourceIndex !== -1) {
         updated[sourceIndex] = targetBlock || null;
         updated[targetIndex] = block;
         return updated;
       }
 
+      // Block från vänstersidan till en upptagen plats
       if (targetBlock) {
         const emptyIndex = updated.findIndex((item) => item === null);
         if (emptyIndex !== -1) {
@@ -128,7 +156,14 @@ function ExerciseTask() {
     event.preventDefault();
     const data = event.dataTransfer.getData("application/json");
     if (!data) return;
-    moveBlockToSlot(JSON.parse(data), targetIndex);
+
+    try {
+      const block = JSON.parse(data);
+      moveBlockToSlot(block, targetIndex);
+    } catch (e) {
+      console.error(e);
+    }
+
     setDraggedBlockId(null);
     setActiveSlot(null);
   };
@@ -141,26 +176,55 @@ function ExerciseTask() {
     setResultStatus("");
   };
 
+  const handleReturnToAvailable = (event) => {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("application/json");
+    if (!data) return;
+
+    try {
+      const block = JSON.parse(data);
+      removeBlockById(block.id);
+    } catch (e) {
+      console.error(e);
+    }
+
+    setDraggedBlockId(null);
+    setActiveSlot(null);
+  };
+
+  /* =========================
+     KLICKSTÖD
+  ========================= */
+
   const handleAvailableBlockClick = (block) => {
-    if (solution.some((item) => item?.id === block.id)) return;
-    setSelectedBlockId((prev) => (prev === block.id ? null : block.id));
+    const alreadyUsed = solution.some((item) => item?.id === block.id);
+    if (alreadyUsed) return;
+
+    setSelectedBlockId((previous) => (previous === block.id ? null : block.id));
   };
 
   const handleSlotClick = (index) => {
     if (!selectedBlockId) return;
+
     const block = exercise.blocks.find((item) => item.id === selectedBlockId);
+
     if (!block) return;
     moveBlockToSlot(block, index);
   };
+
+  /* =========================
+     ÅTERSTÄLL & KONTROLLERA
+  ========================= */
 
   const resetExercise = () => {
     setSolution(Array(exercise.correctOrder.length).fill(null));
     setMessage("");
     setResultStatus("");
     setSelectedBlockId(null);
+    setDraggedBlockId(null);
+    setActiveSlot(null);
   };
 
-  // Verifiera och skicka in till Backend
   const checkAnswer = async () => {
     if (!allBlocksPlaced) {
       setMessage("Placera alla block innan du kontrollerar svaret.");
@@ -168,11 +232,12 @@ function ExerciseTask() {
       return;
     }
 
-    // Slå ihop blockens text till källkod som skickas in
-    const assembledCode = solution.map((b) => b.text).join(" ");
-
     setIsSubmitting(true);
+
     try {
+      // Bygg ihop koden från de placerade blockens text
+      const assembledCode = solution.map((b) => b.text).join(" ");
+
       const response = await fetchWithAuth("/submissions", {
         method: "POST",
         body: JSON.stringify({
@@ -190,7 +255,7 @@ function ExerciseTask() {
         setMessage(result.message || "Ett fel uppstod vid inlämningen.");
         setResultStatus("error");
       }
-    } catch (err) {
+    } catch {
       setMessage("Kunde inte ansluta till servern för rättning.");
       setResultStatus("error");
     } finally {
@@ -198,20 +263,38 @@ function ExerciseTask() {
     }
   };
 
+  /* =========================
+     NAVIGERING TILL NÄSTA
+  ========================= */
+
+  const currentExerciseIndex = levelExercises.findIndex(
+    (item) => item.id === Number(exerciseId),
+  );
+
+  const hasNextExercise =
+    currentExerciseIndex !== -1 &&
+    currentExerciseIndex < levelExercises.length - 1;
+
+  const goToNextExercise = () => {
+    if (!hasNextExercise) {
+      navigate(`/exercises/${level}`);
+      return;
+    }
+
+    const nextExercise = levelExercises[currentExerciseIndex + 1];
+    navigate(`/exercises/${level}/${nextExercise.id}`);
+  };
+
   return (
     <AppLayout>
       <main className="exercise-task-main">
         <div className="exercise-task-layout">
+          {/* SIDEBAR */}
           <aside
             className={`exercise-task-sidebar ${
               draggedBlockId ? "exercise-sidebar-drop-active" : ""
             }`}
-            onDrop={(e) => {
-              e.preventDefault();
-              const data = e.dataTransfer.getData("application/json");
-              if (data) removeBlockById(JSON.parse(data).id);
-              setDraggedBlockId(null);
-            }}
+            onDrop={handleReturnToAvailable}
             onDragOver={handleDragOver}
           >
             <button
@@ -237,6 +320,7 @@ function ExerciseTask() {
                 <h3>Kodblock</h3>
                 <span>{exercise.blocks.length} block</span>
               </div>
+
               <p>{exercise.instruction}</p>
 
               {selectedBlockId && (
@@ -245,22 +329,27 @@ function ExerciseTask() {
                 </div>
               )}
 
-              <div className="available-blocks">
-                {shuffledBlocks.map((block, idx) => {
-                  const blockKey = block.id || `block-${idx}`;
-                  const isUsed = solution.some(
-                    (item) => item?.id === (block.id || blockKey),
-                  );
-                  const isSelected = selectedBlockId === (block.id || blockKey);
+              <div
+                className="available-blocks"
+                onDrop={handleReturnToAvailable}
+                onDragOver={handleDragOver}
+              >
+                {shuffledBlocks.map((block) => {
+                  const isUsed = solution.some((item) => item?.id === block.id);
+                  const isSelected = selectedBlockId === block.id;
 
                   return (
                     <button
-                      key={blockKey}
+                      key={block.id}
                       type="button"
-                      className={`code-block ${isUsed ? "code-block-used" : ""} ${
-                        isSelected ? "code-block-selected" : ""
-                      }`}
-                      // ... resten av props
+                      className={`code-block ${
+                        isUsed ? "code-block-used" : ""
+                      } ${isSelected ? "code-block-selected" : ""}`}
+                      draggable={!isUsed}
+                      disabled={isUsed}
+                      onClick={() => handleAvailableBlockClick(block)}
+                      onDragStart={(event) => handleDragStart(event, block)}
+                      onDragEnd={handleDragEnd}
                     >
                       <span className="code-block-handle">⋮⋮</span>
                       <span>{block.text}</span>
@@ -268,9 +357,14 @@ function ExerciseTask() {
                   );
                 })}
               </div>
+
+              <p className="return-block-hint">
+                Dra tillbaka ett block hit för att ta bort det från lösningen.
+              </p>
             </div>
           </aside>
 
+          {/* WORKSPACE */}
           <section className="exercise-workspace">
             <div className="exercise-workspace-header">
               <div>
@@ -300,22 +394,32 @@ function ExerciseTask() {
               <div
                 className="exercise-mini-progress-fill"
                 style={{
-                  width: `${(placedBlocks / exercise.correctOrder.length) * 100}%`,
+                  width: `${
+                    (placedBlocks / exercise.correctOrder.length) * 100
+                  }%`,
                 }}
               />
             </div>
 
+            {/* SOLUTION AREA */}
             <div className="solution-area">
+              <div className="solution-editor-header">
+                <span>Program</span>
+                <span>
+                  {placedBlocks}/{exercise.correctOrder.length}
+                </span>
+              </div>
+
               <div className="solution-slots">
                 {solution.map((block, index) => (
                   <div
                     key={index}
-                    className={`solution-slot ${block ? "solution-slot-filled" : ""} ${
-                      activeSlot === index ? "solution-slot-active" : ""
-                    }`}
-                    onDrop={(e) => handleDrop(e, index)}
-                    onDragOver={(e) => {
-                      handleDragOver(e);
+                    className={`solution-slot ${
+                      block ? "solution-slot-filled" : ""
+                    } ${activeSlot === index ? "solution-slot-active" : ""}`}
+                    onDrop={(event) => handleDrop(event, index)}
+                    onDragOver={(event) => {
+                      handleDragOver(event);
                       setActiveSlot(index);
                     }}
                     onDragLeave={() => setActiveSlot(null)}
@@ -327,7 +431,7 @@ function ExerciseTask() {
                       <div
                         className="solution-block"
                         draggable
-                        onDragStart={(e) => handleDragStart(e, block)}
+                        onDragStart={(event) => handleDragStart(event, block)}
                         onDragEnd={handleDragEnd}
                       >
                         <span className="solution-drag-handle">⋮⋮</span>
@@ -335,8 +439,9 @@ function ExerciseTask() {
                         <button
                           type="button"
                           className="solution-remove-button"
-                          onClick={(e) => {
-                            e.stopPropagation();
+                          title="Ta bort block"
+                          onClick={(event) => {
+                            event.stopPropagation();
                             removeBlockById(block.id);
                           }}
                         >
@@ -353,6 +458,7 @@ function ExerciseTask() {
               </div>
             </div>
 
+            {/* FEEDBACK */}
             {message && (
               <div
                 className={`exercise-feedback exercise-feedback-${resultStatus}`}
@@ -368,6 +474,7 @@ function ExerciseTask() {
               </div>
             )}
 
+            {/* ACTIONS */}
             <div className="exercise-check-area">
               <button
                 type="button"
@@ -377,6 +484,16 @@ function ExerciseTask() {
               >
                 {isSubmitting ? "Rättar..." : "Kontrollera svar"}
               </button>
+
+              {resultStatus === "success" && (
+                <button
+                  type="button"
+                  className="exercise-next-button"
+                  onClick={goToNextExercise}
+                >
+                  {hasNextExercise ? "Nästa övning →" : "Tillbaka till nivån →"}
+                </button>
+              )}
             </div>
           </section>
         </div>
