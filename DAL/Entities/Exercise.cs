@@ -10,11 +10,16 @@
 
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string Instruction { get; set; } = string.Empty;
+
+        // JSON-serialiserade listor för drag-and-drop
+        public string BlocksJson { get; set; } = "[]";
+        public string CorrectOrderJson { get; set; } = "[]";
+
         public string StarterCode { get; set; } = string.Empty;
         public string SolutionCode { get; set; } = string.Empty;
         public int XpValue { get; set; } = 10;
 
-        // Begränsningar för kodkörning / sandbox
         public int MaxExecutionTimeMs { get; set; } = 3000;
         public int MaxMemoryLimitMb { get; set; } = 64;
         public int CharacterLimit { get; set; } = 5000;
@@ -25,4 +30,5 @@
         public ICollection<Submission> Submissions { get; set; } = new List<Submission>();
     }
 }
+
 
