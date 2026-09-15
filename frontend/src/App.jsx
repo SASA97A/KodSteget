@@ -7,6 +7,7 @@ import Exercises from "./pages/Exercises.jsx";
 import ExerciseLevel from "./pages/ExerciseLevel.jsx";
 import ExerciseTask from "./pages/ExerciseTask.jsx";
 import Profile from "./pages/Profile.jsx";
+import Results from "./pages/Results.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -61,6 +62,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ExerciseTask />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/results"
+          element={
+            <ProtectedRoute>
+              <Results />
             </ProtectedRoute>
           }
         />

@@ -7,5 +7,6 @@ namespace BLL.Services.Interfaces
         Task<IEnumerable<ModuleDto>> GetModulesWithExercisesAsync(string userId);
         Task<ExerciseDetailDto?> GetExerciseByIdAsync(int exerciseId);
         Task<SubmissionResultDto> EvaluateSubmissionAsync(string userId, SubmitCodeDto dto);
+        Task<IEnumerable<SubmissionHistoryDto>> GetUserSubmissionHistoryAsync(string userId);
     }
 }

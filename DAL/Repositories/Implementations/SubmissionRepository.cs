@@ -21,6 +21,17 @@ namespace DAL.Repositories.Implementations
             return submission;
         }
 
+        public async Task<IEnumerable<Submission>> GetAllUserSubmissionsAsync(string userId)
+        {
+            return await _context.Submissions
+                .Include(s => s.Exercise)
+                    .ThenInclude(e => e.Module)
+                .Where(s => s.UserId == userId)
+                .OrderByDescending(s => s.SubmittedAt)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<List<int>> GetPassedExerciseIdsAsync(string userId)
         {
             return await _context.Submissions

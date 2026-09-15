@@ -7,5 +7,6 @@ namespace DAL.Repositories.Interfaces
         Task<List<int>> GetPassedExerciseIdsAsync(string userId);
         Task<Submission> CreateAsync(Submission submission);
         Task<IEnumerable<Submission>> GetUserSubmissionsAsync(string userId, int exerciseId);
+        Task<IEnumerable<Submission>> GetAllUserSubmissionsAsync(string userId);
     }
 }

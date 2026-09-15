@@ -35,5 +35,16 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("history")]
+        public async Task<IActionResult> GetHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var history = await _exerciseService.GetUserSubmissionHistoryAsync(userId);
+            return Ok(history);
+        }
     }
 }

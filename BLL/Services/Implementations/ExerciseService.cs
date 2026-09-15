@@ -119,4 +119,23 @@ public class ExerciseService : IExerciseService
             ExecutionTimeMs = saved.ExecutionTimeMs
         };
     }
+
+    public async Task<IEnumerable<SubmissionHistoryDto>> GetUserSubmissionHistoryAsync(string userId)
+    {
+        var submissions = await _submissionRepository.GetAllUserSubmissionsAsync(userId);
+
+        return submissions.Select(s => new SubmissionHistoryDto
+        {
+            Id = s.Id,
+            ExerciseId = s.ExerciseId,
+            ExerciseTitle = s.Exercise?.Title ?? "Okänd övning",
+            ModuleTitle = s.Exercise?.Module?.Title ?? "Nivå",
+            ModuleId = s.Exercise?.ModuleId ?? 0,
+            IsPassed = s.IsPassed,
+            Status = s.Status,
+            Feedback = s.Feedback,
+            SubmittedCode = s.SubmittedCode,
+            SubmittedAt = s.SubmittedAt
+        });
+    }
 }
