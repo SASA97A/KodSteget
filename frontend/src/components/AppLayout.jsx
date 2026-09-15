@@ -130,28 +130,6 @@ function AppLayout({ children }) {
 
               <span>Resultat</span>
             </NavLink>
-
-            <NavLink
-              to="/challenges"
-              className={({ isActive }) =>
-                `sidebar-item ${isActive ? "active" : ""}`
-              }
-            >
-              <span className="sidebar-icon">◇</span>
-
-              <span>Utmaningar</span>
-            </NavLink>
-
-            <NavLink
-              to="/settings"
-              className={({ isActive }) =>
-                `sidebar-item ${isActive ? "active" : ""}`
-              }
-            >
-              <span className="sidebar-icon">⚙</span>
-
-              <span>Inställningar</span>
-            </NavLink>
           </nav>
         </aside>
 
