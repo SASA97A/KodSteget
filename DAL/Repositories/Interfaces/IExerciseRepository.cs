@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DAL.Entities;
 
 namespace DAL.Repositories.Interfaces
 {
-    internal class IExerciseRepository
+    public interface IExerciseRepository
     {
+        Task<IEnumerable<CourseModule>> GetModulesWithExercisesAsync();
+        Task<Exercise?> GetByIdWithTestCasesAsync(int id);
     }
+
 }

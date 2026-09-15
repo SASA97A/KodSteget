@@ -11,6 +11,7 @@
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string StarterCode { get; set; } = string.Empty;
+        public string SolutionCode { get; set; } = string.Empty;
         public int XpValue { get; set; } = 10;
 
         // Begränsningar för kodkörning / sandbox
@@ -20,6 +21,8 @@
 
         // Navigation properties
         public ICollection<CodeDraft> CodeDrafts { get; set; } = new List<CodeDraft>();
+        public ICollection<ExerciseTestCase> TestCases { get; set; } = new List<ExerciseTestCase>();
+        public ICollection<Submission> Submissions { get; set; } = new List<Submission>();
     }
 }
 

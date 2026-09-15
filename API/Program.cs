@@ -54,6 +54,9 @@ builder.Services.AddScoped<ICodeDraftRepository, CodeDraftRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICodeDraftService, CodeDraftService>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
 // 4. CORS för React
 builder.Services.AddCors(options =>

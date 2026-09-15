@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTOs.Exercises
 {
-    internal class SubmitCodeDto
+    public class SubmitCodeDto
     {
+        [Required]
+        public int ExerciseId { get; set; }
+
+        [Required]
+        public string Code { get; set; } = string.Empty;
     }
 }

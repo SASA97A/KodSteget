@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DAL.Entities;
 
 namespace DAL.Repositories.Interfaces
 {
-    internal class ISubmissionRepository
+    public interface ISubmissionRepository
     {
+        Task<Submission> CreateAsync(Submission submission);
+        Task<IEnumerable<Submission>> GetUserSubmissionsAsync(string userId, int exerciseId);
     }
 }
