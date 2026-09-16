@@ -9,31 +9,9 @@ import ExerciseLevel from "./pages/ExerciseLevel.jsx";
 import ExerciseTask from "./pages/ExerciseTask.jsx";
 import Profile from "./pages/Profile.jsx";
 import Results from "./pages/Results.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
-function NotFound() {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-surface text-on-surface p-6 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-primary text-on-primary flex items-center justify-center font-bold text-2xl mb-4 shadow-sm">
-        404
-      </div>
-      <h1 className="font-headline-lg text-2xl md:text-3xl font-bold mb-2 tracking-tight">
-        Sidan kunde inte hittas
-      </h1>
-      <p className="text-on-surface-variant max-w-md mb-6 font-body-md">
-        Den här sidan finns inte ännu eller har flyttats.
-      </p>
-      <Link
-        to="/"
-        className="btn-depress px-6 py-3 bg-primary hover:bg-[#2c1eb3] text-on-primary font-label-ui font-bold rounded-lg shadow-md transition-all inline-flex items-center gap-2"
-      >
-        <span className="material-symbols-outlined text-base">arrow_back</span>
-        Tillbaka till startsidan
-      </Link>
-    </div>
-  );
-}
 
 function App() {
   return (
