@@ -277,3 +277,22 @@ input::placeholder {
     0 4px 14px -3px rgba(79, 70, 229, 0.08),
     0 2px 6px -1px rgba(15, 23, 42, 0.04);
 }
+
+/* ==========================================================================
+   Global Cursor Adjustments
+   ========================================================================== */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+[role="button"],
+select,
+label {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
