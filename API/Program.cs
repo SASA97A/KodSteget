@@ -69,8 +69,14 @@ builder.Services.AddCors(options =>
                 if (string.IsNullOrWhiteSpace(origin))
                     return false;
 
-                return Uri.TryCreate(origin, UriKind.Absolute, out var uri)
-                    && (uri.Host == "localhost" || uri.Host == "127.0.0.1");
+                if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    return false;
+
+                // Match localhost/127.0.0.1 or Cloudflare Pages domain
+                return uri.Host == "localhost"
+                    || uri.Host == "127.0.0.1"
+                    || uri.Host.Equals("kodsteget.pages.dev", StringComparison.OrdinalIgnoreCase)
+                    || uri.Host.EndsWith(".kodsteget.pages.dev", StringComparison.OrdinalIgnoreCase);
             })
             .AllowAnyHeader()
             .AllowAnyMethod()
