@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../services/api";
 
 function Register() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function Register() {
       setLoading(true);
 
       const response = await fetch(
-        "https://localhost:7016/api/auth/register",
+        `${BASE_URL}/auth/register`,
         {
           method: "POST",
           headers: {
@@ -84,6 +85,10 @@ function Register() {
         email: "",
         password: "",
       });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (error) {
       console.error("Fel vid registrering:", error);
 
@@ -282,6 +287,7 @@ function Register() {
 
               {/* Dynamic Status / Validation Feedback Panel */}
               <div
+                id="validationBox"
                 className={`rounded-lg p-3.5 border transition-all duration-200 text-left ${validation.boxClass}`}
               >
                 <div className="flex items-start gap-2.5">
