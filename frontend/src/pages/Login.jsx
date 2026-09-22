@@ -58,7 +58,7 @@ function Login() {
         return;
       }
 
-      console.log("Login lyckades:", data);
+
 
       localStorage.setItem("token", data.token);
       navigate("/dashboard");
